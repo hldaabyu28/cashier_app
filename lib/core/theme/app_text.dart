@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class AppText {
-  static TextStyle heading1 = GoogleFonts.roboto(
+class AppTextStyle {
+  static TextStyle heading1 = GoogleFonts.plusJakartaSans(
     fontSize: 24,
     fontWeight: FontWeight.bold,
-    color: AppColor.primary,
+    color: AppColor.textColor,
+  );
+
+  static TextStyle heading2 = GoogleFonts.plusJakartaSans(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColor.textColor,
   );
 }
