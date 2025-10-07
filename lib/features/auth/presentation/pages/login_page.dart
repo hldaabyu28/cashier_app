@@ -16,9 +16,15 @@ class LoginPage extends StatelessWidget {
         children: [
           MyButton(text: "Hello", onPressed: (){}, isLoading: false, color: AppColor.secondary, icon: Icons.login,),
           Text("Login Page", style: AppTextStyle.heading1),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MyInput(controller: TextEditingController()),
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MyInput.password(
+                placeholder: "Password",
+                
+              ),
+            ),
           )
         ],
       )
