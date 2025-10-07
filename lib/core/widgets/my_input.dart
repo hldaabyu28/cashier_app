@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class MyInput extends StatefulWidget {
   final TextEditingController? controller;
-  final String? hintText;
+  final String? placeholder;
   final Color? fillColor;
   final Color? borderColor;
   final TextInputType? keyboardType;
@@ -19,7 +19,7 @@ class MyInput extends StatefulWidget {
   const MyInput({
     super.key,
     this.controller,
-    this.hintText,
+    this.placeholder,
     this.keyboardType,
     this.validator,
     this.maxLines,
@@ -45,7 +45,7 @@ class MyInput extends StatefulWidget {
       builder: (context, value, child) {
         return MyInput(
           controller: controller,
-          hintText: placeholder,
+          placeholder: placeholder,
           obscureText: value,
           fillColor: fillColor,
           borderColor: borderColor,
@@ -81,7 +81,7 @@ class _MyInputState extends State<MyInput> {
       style: AppTextStyle.body.copyWith(color: AppColor.textColor, fontSize: 14),
       obscuringCharacter: '*',
       decoration: InputDecoration(
-        hintText: widget.hintText ?? "Enter text",
+        hintText: widget.placeholder ?? "Enter text",
         
         hintStyle: AppTextStyle.body.copyWith(color: AppColor.textColor.withOpacity(0.5), fontSize: 14),
         contentPadding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
