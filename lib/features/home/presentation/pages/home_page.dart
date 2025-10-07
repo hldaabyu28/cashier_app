@@ -7,7 +7,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primary,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text("Home"),
+        backgroundColor: Colors.white,
+        foregroundColor: AppColor.primary,
+        elevation: 0,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              "Home Page",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColor.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

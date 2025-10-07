@@ -89,6 +89,31 @@ class LoginPage extends StatelessWidget {
                 isLoading: false,
                 color: AppColor.secondary,
               ),
+              SizedBox(height: AppSpacing.md),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: AppTextStyle.subtitle.copyWith(
+                      color: AppColor.textColor,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed('/register');
+                    },
+                    child: Text(
+                      "Register",
+                      style: AppTextStyle.subtitle.copyWith(
+                        color: AppColor.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
