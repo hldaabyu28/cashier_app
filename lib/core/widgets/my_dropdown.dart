@@ -43,9 +43,8 @@ class MyDropdown<T> extends StatelessWidget {
                 value: value,
                 iconSize: 22,
                 enableFeedback: true,
-                style: AppTextStyle.body.copyWith(
-                  color: Colors.grey[800],
-                  fontWeight: FontWeight.w500,
+                style: AppTextStyle.subtitle.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
                 borderRadius: BorderRadius.circular(10),
                 dropdownColor: Colors.white,
@@ -61,7 +60,9 @@ class MyDropdown<T> extends StatelessWidget {
                     hint != null
                         ? Text(
                           hint!,
-                          style: TextStyle(color: Colors.grey.shade500),
+                          style:  AppTextStyle.subtitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         )
                         : null,
               ),

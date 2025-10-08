@@ -1,3 +1,4 @@
+import 'package:casier_app/core/theme/app_color.dart';
 import 'package:casier_app/core/theme/app_text.dart';
 import 'package:casier_app/core/widgets/my_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +37,13 @@ class _FilterSectionState extends State<FilterSection> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.add_circle_outline, color: Colors.grey[600]),
+                Icon(Icons.add_circle_outline, color: AppColor.primary),
                 const SizedBox(width: 8),
                 Text(
                   "Add",
-                  style: AppTextStyle.body.copyWith(
-                    color: Colors.grey[800],
-                    fontWeight: FontWeight.w500,
+                  style: AppTextStyle.subtitle.copyWith(
+                    fontWeight: FontWeight.w600,
+
                   ),
                 ),
               ],

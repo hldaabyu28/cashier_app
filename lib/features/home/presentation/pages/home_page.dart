@@ -43,7 +43,12 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 24),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text("All Items", style: AppTextStyle.heading3),
+                child: Text(
+                  "All Items",
+                  style: AppTextStyle.heading3.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
 
@@ -64,13 +69,18 @@ class _HomePageState extends State<HomePage> {
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.85,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                   ),
                   itemCount: 20,
                   itemBuilder: (context, index) {
-                    return ProductCard();
+                    return ProductCard(
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                      title: 'Product ${index + 1}',
+                      price: '${(index + 1) * 10}',
+                    );
                   },
                 ),
               ),
