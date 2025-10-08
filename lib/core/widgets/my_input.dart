@@ -29,7 +29,7 @@ class MyInput extends StatefulWidget {
     this.suffixIcon,
     this.padding,
     this.fillColor,
-    this.borderColor, 
+    this.borderColor,
   });
   static Widget password({
     TextEditingController? controller,
@@ -64,6 +64,21 @@ class MyInput extends StatefulWidget {
     );
   }
 
+  static Widget search({
+    TextEditingController? controller,
+    String? placeholder,
+    Color? fillColor,
+    Color? borderColor,
+  }) {
+    return MyInput(
+      controller: controller,
+      placeholder: placeholder,
+      fillColor: fillColor,
+      borderColor: borderColor,
+      prefixIcon: const Icon(Icons.search, color: AppColor.primary),
+    );
+  }
+
   @override
   State<MyInput> createState() => _MyInputState();
 }
@@ -78,21 +93,43 @@ class _MyInputState extends State<MyInput> {
       validator: widget.validator,
       cursorColor: AppColor.primary,
       cursorErrorColor: AppColor.danger,
-      style: AppTextStyle.body.copyWith(color: AppColor.textColor, fontSize: 14),
+      style: AppTextStyle.body.copyWith(
+        color: AppColor.textColor,
+        fontSize: 14,
+      ),
       obscuringCharacter: '*',
       decoration: InputDecoration(
         hintText: widget.placeholder ?? "Enter text",
-        
-        hintStyle: AppTextStyle.body.copyWith(color: AppColor.textColor.withOpacity(0.5), fontSize: 14),
-        contentPadding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+
+        hintStyle: AppTextStyle.body.copyWith(
+          color: AppColor.textColor.withOpacity(0.5),
+          fontSize: 14,
+        ),
+        contentPadding:
+            widget.padding ??
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
         fillColor: widget.fillColor ?? AppColor.background,
         filled: true,
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Colors.transparent)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color:AppColor.secondary, width: 1.5)),
-        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: AppColor.danger, width: 1.5)),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: widget.borderColor ?? Colors.transparent)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(color: AppColor.secondary, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(color: AppColor.danger, width: 1.5),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(
+            color: widget.borderColor ?? Colors.transparent,
+          ),
+        ),
       ),
     );
   }
