@@ -1,6 +1,8 @@
 import 'package:casier_app/core/theme/app_color.dart';
 import 'package:casier_app/core/widgets/circle_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 
 class HeadingSection extends StatelessWidget {
   const HeadingSection({super.key});
@@ -21,7 +23,9 @@ class HeadingSection extends StatelessWidget {
           backgroundColor: Colors.white,
           iconColor: AppColor.primary,
           icon: Icons.shopping_cart_outlined,
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed('/cart');
+          },
         ),
       ],
     );
