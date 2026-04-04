@@ -4,4 +4,6 @@ class AppRoutes {
   static const register = '/register';
   static const splash = '/splash';
   static const cart = '/cart';
+  static const cashier = '/cashier';
+  static const pos = '/pos';
 }

@@ -84,7 +84,7 @@ class LoginPage extends StatelessWidget {
               MyButton(
                 text: "Login",
                 onPressed: () {
-                  Get.toNamed('/home');
+                  Get.toNamed('/pos');
                 },
                 isLoading: false,
                 color: AppColor.secondary,
