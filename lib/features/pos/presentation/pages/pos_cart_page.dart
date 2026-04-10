@@ -28,7 +28,7 @@ class PosCartPage extends GetView<PosController> {
                       ),
                     ),
                   ),
-                  Obx(() => controller.cartItems.isNotEmpty
+                  Obx(() => controller.cartItems.length > 0
                       ? TextButton(
                           onPressed: controller.clearCart,
                           child: Text(
@@ -47,7 +47,7 @@ class PosCartPage extends GetView<PosController> {
             // ── Cart items list ───────────────────────────────────────────────
             Expanded(
               child: Obx(() {
-                if (controller.cartItems.isEmpty) {
+                if (controller.cartItems.length == 0) {
                   return Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -176,7 +176,7 @@ class PosCartPage extends GetView<PosController> {
 
             // ── Total + Checkout ──────────────────────────────────────────────
             Obx(() {
-              if (controller.cartItems.isEmpty) return const SizedBox.shrink();
+              if (controller.cartItems.length == 0) return const SizedBox.shrink();
               return Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(

@@ -19,7 +19,8 @@ class AppPage {
     ),
     GetPage(
       name: AppRoutes.register,
-      page: () => const RegisterPage(), // Replace with actual SplashPage
+      page: () => const RegisterPage(),
+      binding: AuthBinding(),
     ),
     GetPage(
       name: AppRoutes.pos,

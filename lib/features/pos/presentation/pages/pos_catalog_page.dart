@@ -79,7 +79,13 @@ class PosCatalogPage extends GetView<PosController> {
                     ),
 
                     // Product List
-                    if (products.isEmpty)
+                    if (controller.isLoading.value)
+                      SliverFillRemaining(
+                        child: Center(
+                          child: CircularProgressIndicator(color: AppColor.primary),
+                        ),
+                      )
+                    else if (products.isEmpty)
                       SliverFillRemaining(
                         child: Center(
                           child: Column(

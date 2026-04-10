@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
+import 'package:casier_app/core/services/auth_service.dart';
+import 'package:get/get.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(AuthService());
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-
   ]);
   runApp(const MyApp());
 }

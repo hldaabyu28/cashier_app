@@ -3,10 +3,11 @@ import 'package:casier_app/core/theme/app_spacing.dart';
 import 'package:casier_app/core/theme/app_text.dart';
 import 'package:casier_app/core/widgets/my_button.dart';
 import 'package:casier_app/core/widgets/my_input.dart';
+import 'package:casier_app/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends GetView<AuthController> {
   const LoginPage({super.key});
 
   @override
@@ -77,18 +78,24 @@ class LoginPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              MyInput(placeholder: "Username"),
+              MyInput(
+                placeholder: "Username",
+                controller: controller.loginUsernameController,
+              ),
               SizedBox(height: AppSpacing.md),
-              MyInput.password(placeholder: "Password"),
+              MyInput.password(
+                placeholder: "Password",
+                controller: controller.loginPasswordController,
+              ),
               SizedBox(height: AppSpacing.lg),
-              MyButton(
+              Obx(() => MyButton(
                 text: "Login",
                 onPressed: () {
-                  Get.toNamed('/pos');
+                  controller.login();
                 },
-                isLoading: false,
+                isLoading: controller.isLoading.value,
                 color: AppColor.secondary,
-              ),
+              )),
               SizedBox(height: AppSpacing.md),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,9 @@
+import 'package:casier_app/core/services/auth_service.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+import 'package:casier_app/core/network/dio_config.dart';
+import 'package:casier_app/core/network/api_route.dart';
+import 'package:flutter/material.dart';
 
 class PosProduct {
   final String id;
@@ -6,9 +11,8 @@ class PosProduct {
   final String category;
   final double price;
   final String imageUrl;
-  final double rating;
-  final int reviewCount;
-  final String distance;
+  final int stock;
+  final String description;
 
   const PosProduct({
     required this.id,
@@ -16,13 +20,23 @@ class PosProduct {
     required this.category,
     required this.price,
     required this.imageUrl,
-    required this.rating,
-    required this.reviewCount,
-    required this.distance,
+    required this.stock,
+    this.description = '',
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PosProduct && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 class PosController extends GetxController {
+  final RxBool isLoading = true.obs;
+  late final Dio _dio;
+
   final RxString pageTitle = 'Point of Sale'.obs;
   final RxString selectedCategory = 'All'.obs;
   final RxString searchQuery = ''.obs;
@@ -30,139 +44,62 @@ class PosController extends GetxController {
   final RxDouble cartTotal = 0.0.obs;
   final RxList<PosProduct> cartItems = <PosProduct>[].obs;
 
-  // ── Bottom nav tab — stored here so it survives widget rebuilds ──────────
   final RxInt selectedTab = 0.obs;
-
-  // ── Reactive quantity map: productId → quantity ───────────────────────────
-  // This is the ONLY reactive source of truth for quantities.
-  // Obx widgets subscribe to this map for live updates.
   final RxMap<String, int> quantities = <String, int>{}.obs;
 
-  /// Returns the current quantity for [productId] (default 0).
+  final RxList<String> categories = <String>['All'].obs;
+  final RxList<PosProduct> allProducts = <PosProduct>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _dio = DioConfig.setup(getToken: () async => AuthService.to.token);
+    fetchProducts();
+  }
+
   int getQty(String productId) => quantities[productId] ?? 0;
 
-  final List<String> categories = [
-    'All',
-    'Fresh Fruit',
-    'Vegetables',
-    'Meat',
-    'Dairy',
-    'Snacks',
-    'Beverages',
-  ];
+  Future<void> fetchProducts() async {
+    try {
+      isLoading.value = true;
+      final response = await _dio.get(ApiRoute.PRODUCTS);
+      
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final resData = response.data;
+        if (resData['success'] == true) {
+          final List<dynamic> dataList = resData['data'];
+          
+          final fetchedProducts = dataList.map((item) {
+            final categoryObj = item['category'];
+            final categoryName = categoryObj != null ? categoryObj['name'] : 'Uncategorized';
+            
+            return PosProduct(
+              id: item['_id']?.toString() ?? '',
+              name: item['name'] ?? '',
+              category: categoryName.toString(),
+              price: item['price']?.toDouble() ?? 0.0,
+              imageUrl: item['image'] ?? '',
+              stock: item['stock'] ?? 0,
+              description: item['description'] ?? '',
+            );
+          }).toList();
+          
+          allProducts.value = fetchedProducts;
 
-  final List<PosProduct> allProducts = const [
-    PosProduct(
-      id: '1',
-      name: 'Watermelon',
-      category: 'Fresh Fruit',
-      price: 19000,
-      imageUrl:
-          'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400&auto=format&fit=crop',
-      rating: 4.5,
-      reviewCount: 1200,
-      distance: '1 km',
-    ),
-    PosProduct(
-      id: '2',
-      name: 'Yellow Peach',
-      category: 'Fresh Fruit',
-      price: 12700,
-      imageUrl:
-          'https://images.unsplash.com/photo-1629828874338-99e30c800f21?w=400&auto=format&fit=crop',
-      rating: 4.3,
-      reviewCount: 760,
-      distance: '2 km',
-    ),
-    PosProduct(
-      id: '3',
-      name: 'Green Bell Pepper',
-      category: 'Vegetables',
-      price: 16700,
-      imageUrl:
-          'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400&auto=format&fit=crop',
-      rating: 4.1,
-      reviewCount: 390,
-      distance: '500 m',
-    ),
-    PosProduct(
-      id: '4',
-      name: 'Red Onion',
-      category: 'Vegetables',
-      price: 8900,
-      imageUrl:
-          'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400&auto=format&fit=crop',
-      rating: 4.0,
-      reviewCount: 540,
-      distance: '1.2 km',
-    ),
-    PosProduct(
-      id: '5',
-      name: 'Organic Banana',
-      category: 'Fresh Fruit',
-      price: 14500,
-      imageUrl:
-          'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop',
-      rating: 4.7,
-      reviewCount: 2100,
-      distance: '300 m',
-    ),
-    PosProduct(
-      id: '6',
-      name: 'Broccoli Crown',
-      category: 'Vegetables',
-      price: 22000,
-      imageUrl:
-          'https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?w=400&auto=format&fit=crop',
-      rating: 4.4,
-      reviewCount: 870,
-      distance: '800 m',
-    ),
-    PosProduct(
-      id: '7',
-      name: 'Fresh Chicken',
-      category: 'Meat',
-      price: 38000,
-      imageUrl:
-          'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&auto=format&fit=crop',
-      rating: 4.6,
-      reviewCount: 1580,
-      distance: '1.5 km',
-    ),
-    PosProduct(
-      id: '8',
-      name: 'Whole Milk',
-      category: 'Dairy',
-      price: 18500,
-      imageUrl:
-          'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&auto=format&fit=crop',
-      rating: 4.2,
-      reviewCount: 930,
-      distance: '400 m',
-    ),
-    PosProduct(
-      id: '9',
-      name: 'Potato Chips',
-      category: 'Snacks',
-      price: 12000,
-      imageUrl:
-          'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&auto=format&fit=crop',
-      rating: 4.3,
-      reviewCount: 1200,
-      distance: '600 m',
-    ),
-    PosProduct(
-      id: '10',
-      name: 'Orange Juice',
-      category: 'Beverages',
-      price: 25000,
-      imageUrl:
-          'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&auto=format&fit=crop',
-      rating: 4.8,
-      reviewCount: 3200,
-      distance: '200 m',
-    ),
-  ];
+          // Update dynamic categories
+          final Set<String> uniqueCats = {'All'};
+          for (var p in fetchedProducts) {
+             uniqueCats.add(p.category);
+          }
+          categories.value = uniqueCats.toList();
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch products: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   List<PosProduct> get filteredProducts {
     return allProducts.where((product) {
@@ -179,11 +116,18 @@ class PosController extends GetxController {
   }
 
   void incrementProduct(PosProduct product) {
+    if (product.stock <= getQty(product.id)) {
+      Get.snackbar('Out of Stock', 'Cannot add more of ${product.name}',
+          backgroundColor: Colors.orange, colorText: Colors.white);
+      return;
+    }
+    
     final current = quantities[product.id] ?? 0;
     quantities[product.id] = current + 1;
     cartCount.value++;
     cartTotal.value += product.price;
-    if (!cartItems.contains(product)) {
+    
+    if (!cartItems.any((item) => item.id == product.id)) {
       cartItems.add(product);
     }
   }
@@ -195,7 +139,7 @@ class PosController extends GetxController {
       cartCount.value--;
       cartTotal.value -= product.price;
       if (quantities[product.id] == 0) {
-        cartItems.remove(product);
+        cartItems.removeWhere((item) => item.id == product.id);
       }
     }
   }
@@ -208,6 +152,5 @@ class PosController extends GetxController {
   }
 
   void setCategory(String cat) => selectedCategory.value = cat;
-
   void setSearch(String query) => searchQuery.value = query;
 }

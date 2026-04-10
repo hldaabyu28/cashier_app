@@ -105,26 +105,14 @@ class PosProductListCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
 
-                // Rating + distance + price
+                // Stock + Price
                 Row(
                   children: [
-                    Icon(Icons.star_rounded, color: Colors.amber, size: 13),
-                    const SizedBox(width: 2),
-                    Text(
-                      '${product.rating}',
-                      style: AppTextStyle.caption.copyWith(
-                          fontWeight: FontWeight.w600, fontSize: 11),
-                    ),
-                    Text(
-                      ' (${product.reviewCount})',
-                      style: AppTextStyle.caption
-                          .copyWith(color: Colors.grey[400], fontSize: 11),
-                    ),
-                    const SizedBox(width: 8),
-                    Icon(Icons.location_on_rounded,
+                    Icon(Icons.inventory_2_outlined,
                         color: Colors.grey[400], size: 12),
+                    const SizedBox(width: 4),
                     Text(
-                      product.distance,
+                      'Stock: ${product.stock}',
                       style: AppTextStyle.caption
                           .copyWith(color: Colors.grey[400], fontSize: 11),
                     ),
