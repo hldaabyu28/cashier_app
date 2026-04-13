@@ -55,7 +55,7 @@ class PosPage extends GetView<PosController> {
                   ),
                   _NavItem(
                     icon: Icons.receipt_long_rounded,
-                    label: 'Recipes',
+                    label: 'History',
                     isSelected: controller.selectedTab.value == 1,
                     onTap: () => controller.selectedTab.value = 1,
                   ),

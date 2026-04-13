@@ -1,6 +1,7 @@
 import 'package:casier_app/core/theme/app_color.dart';
 import 'package:casier_app/core/theme/app_text.dart';
 import 'package:casier_app/features/pos/presentation/controllers/pos_controller.dart';
+import 'package:casier_app/features/pos/presentation/pages/pos_checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -214,16 +215,11 @@ class PosCartPage extends GetView<PosController> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        Get.snackbar(
-                          'Order Placed!',
-                          'Total: Rp ${_fmt(controller.cartTotal.value.toInt())}',
-                          backgroundColor: AppColor.success,
-                          colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM,
-                          margin: const EdgeInsets.all(16),
-                          borderRadius: 12,
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const PosCheckoutPage(),
+                          ),
                         );
-                        controller.clearCart();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.primary,

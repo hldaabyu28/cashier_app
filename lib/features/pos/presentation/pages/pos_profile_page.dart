@@ -1,6 +1,9 @@
 import 'package:casier_app/core/theme/app_color.dart';
 import 'package:casier_app/core/theme/app_text.dart';
+import 'package:casier_app/core/services/auth_service.dart';
+import 'package:casier_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PosProfilePage extends StatelessWidget {
   const PosProfilePage({super.key});
@@ -259,7 +262,28 @@ class PosProfilePage extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Get.dialog(
+                            AlertDialog(
+                              title: const Text('Sign Out'),
+                              content: const Text('Are you sure you want to sign out?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Get.back(),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    AuthService.to.setToken(null);
+                                    Get.offAllNamed(AppRoutes.login);
+                                  },
+                                  child: const Text('Sign Out',
+                                      style: TextStyle(color: Colors.red)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
